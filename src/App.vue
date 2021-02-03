@@ -1,12 +1,42 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/">Login</router-link> |
+      <router-link to="/content">Table</router-link>
     </div>
-    <router-view/>
+    <router-view
+    :isAuthorized="isAuthorized"
+    :errorMessage="errorMessage"
+    @check-user="checkUser"
+    />
   </div>
 </template>
+
+<script>
+export default {
+  name: 'app',
+
+  data() {
+    return {
+      login: 'admin',
+      password: 'admin',
+      isAuthorized: false,
+      errorMessage: '',
+    };
+  },
+
+  methods: {
+    checkUser(userData) {
+      if (userData.login === this.login && userData.password === this.password) {
+        this.isAuthorized = true;
+      } else {
+        this.errorMessage = 'Failed. Check your username and password';
+      }
+    },
+  },
+};
+
+</script>
 
 <style>
 #app {
